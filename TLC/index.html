@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sito TLC di Mirabelli</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <h1 class="display-4">Sito di TLC di Mirabelli</h1>
+        <p class="lead">Benvenuto nel calcolatore per la Legge di Ohm!</p>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <button id="bottone" type="button" class="btn btn-primary btn-lg w-100" onclick="mostra()">Mostra Calcolatore Intensità</button>
+                <div class="card d-none mt-4" id="cardNascosta" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Calcolo Intensità</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="tensioneA" class="form-label">Tensione (V):</label>
+                                <input type="number" class="form-control" id="tensioneA" placeholder="Inserisci la tensione (V)" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="resistenzaA" class="form-label">Resistenza (Ohm):</label>
+                                <input type="number" class="form-control" id="resistenzaA" placeholder="Inserisci la resistenza (Ohm)" required>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="calcolaIntensita()">Calcola Intensità</button>
+                        </form>
+                        <h2 class="mt-4" id="risultatoA"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <button id="bottone1" type="button" class="btn btn-primary btn-lg w-100" onclick="mostra1()">Mostra Calcolatore Tensione</button>
+                <div class="card d-none mt-4" id="cardNascosta1" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Calcolo Tensione</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="resistenzaB" class="form-label">Resistenza (Ohm):</label>
+                                <input type="number" class="form-control" id="resistenzaB" placeholder="Inserisci la resistenza (Ohm)" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="intensitaB" class="form-label">Intensità (A):</label>
+                                <input type="number" class="form-control" id="intensitaB" placeholder="Inserisci l'intensità (A)" required>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="calcolaTensione()">Calcola Tensione</button>
+                        </form>
+                        <h2 class="mt-4" id="risultatoB"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <button id="bottone2" type="button" class="btn btn-primary btn-lg w-100" onclick="mostra2()">Mostra Calcolatore Resistenza</button>
+                <div class="card d-none mt-4" id="cardNascosta2" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Calcolo Resistenza</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="tensioneC" class="form-label">Tensione (V):</label>
+                                <input type="number" class="form-control" id="tensioneC" placeholder="Inserisci la tensione (V)" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="intensitaC" class="form-label">Intensità (A):</label>
+                                <input type="number" class="form-control" id="intensitaC" placeholder="Inserisci l'intensità (A)" required>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="calcolaResistenza()">Calcola Resistenza</button>
+                        </form>
+                        <h2 class="mt-4" id="risultatoC"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <button id="bottone3" type="button" class="btn btn-primary btn-lg w-100" onclick="mostra3()">Mostra Calcolatore Kirchhoff</button>
+                <div class="card d-none mt-4" id="cardNascosta3" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Calcolo Serie e Parallelo</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="numeroResistenze" class="form-label">Numero di Resistenze:</label>
+                                <input type="number" class="form-control" id="numeroResistenze" min="2" max="10" value="4" onchange="generaResistenze()" required>
+                            </div>
+                            <div id="resistenzeForm" class="mb-3"></div>
+                            <div class="mb-3">
+                                <label for="configurazione" class="form-label">Configurazione:</label>
+                                <select class="form-control" id="configurazione">
+                                    <option value="serie">Serie</option>
+                                    <option value="parallelo">Parallelo</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="intensitaD" class="form-label">Batteria (E) (inserisca solo 'e' se si vuole calcolare solo le resistenze):</label>
+                                <input type="number" class="form-control" id="intensitaD" placeholder="Inserisci l'intensità (A)" required>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="calcolaKirchhoff()">Calcola Resistenze</button>
+                        </form>
+                        <h2 class="mt-4" id="risultatoD"></h2>
+                        <img src="immagine TLC.jpeg" class="img-fluid mt-4" alt="Serie e Parallelo">
+                        <p><i> esempio di calcolo... </i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8">
+                <h2>Teoria delle Leggi Elettriche</h2>
+                <h3>Legge di Ohm</h3>
+                <p>La legge di Ohm afferma che la corrente che attraversa un conduttore tra due punti è direttamente proporzionale alla tensione ai capi del conduttore stesso. La formula è:</p>
+                <p><strong>V = I * R</strong></p>
+                <p>dove V è la tensione, I è la corrente e R è la resistenza.</p>
+                
+                <h2>Teoria delle Leggi di Kirchhoff</h2>
+                <p>Le leggi di Kirchhoff sono due equazioni che descrivono la conservazione della carica e dell'energia nei circuiti elettrici:</p>
+                <ul>
+                    <li><strong>Prima legge di Kirchhoff (Legge dei nodi):</strong> La somma delle correnti entranti in un nodo è uguale alla somma delle correnti uscenti.</li>
+                    <li><strong>Seconda legge di Kirchhoff (Legge delle maglie):</strong> La somma delle tensioni in un circuito chiuso è uguale alla somma delle cadute di tensione.</li>
+                </ul>
+                <h3>Esempio Pratico</h3>
+                <p>Consideriamo un circuito con tre resistenze in parallelo e una corrente applicata. Le equazioni di Kirchhoff per questo circuito sono:</p>
+                <ul>
+                    <li><strong>Legge dei nodi:</strong> I = I1 + I2 + I3</li>
+                    <li><strong>Legge delle maglie:</strong> V = V1 = V2 = V3</li>
+                </ul>
+                <p>Per calcolare le correnti attraverso ogni resistenza in un circuito in parallelo, possiamo usare la legge di Ohm per ogni resistenza:</p>
+                <p><strong>I<sub>i</sub> = V / R<sub>i</sub></strong></p>
+                <p>dove I<sub>i</sub> è la corrente attraverso la resistenza R<sub>i</sub>, V è la tensione totale applicata al circuito e R<sub>i</sub> è la resistenza.</p>
+                <p>La resistenza equivalente del circuito in parallelo è data da:</p>
+                <p><strong>1 / R<sub>eq</sub> = 1 / R<sub>1</sub> + 1 / R<sub>2</sub> + 1 / R<sub>3</sub></strong></p>
+                <p>La tensione totale può essere calcolata come:</p>
+                <p><strong>V = I<sub>tot</sub> * R<sub>eq</sub></strong></p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

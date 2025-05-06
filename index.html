@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sito TLC Mirabelli</title>
+    <link rel="icon" type="image/x-icon" href="bolt.png">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <h1 class="display-4">Sito di TLC di Mirabelli</h1>
+        <p class="lead">Benvenuto nel calcolatore di TLC di Mirabelli!</p>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <button id="bottone" type="button" class="btn btn-primary btn-lg w-100" onclick="mostra()">Mostra Calcolatore Intensità</button>
+                <div class="card d-none mt-4" id="cardNascosta" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Calcolo Intensità</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="tensioneA" class="form-label">Tensione (V):</label>
+                                <input type="number" class="form-control" id="tensioneA" placeholder="Inserisci la tensione (V)" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="resistenzaA" class="form-label">Resistenza (Ohm):</label>
+                                <input type="number" class="form-control" id="resistenzaA" placeholder="Inserisci la resistenza (Ohm)" required>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="calcolaIntensita()">Calcola Intensità</button>
+                        </form>
+                        <h2 class="mt-4" id="risultatoA"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <button id="bottone1" type="button" class="btn btn-primary btn-lg w-100" onclick="mostra1()">Mostra Calcolatore Tensione</button>
+                <div class="card d-none mt-4" id="cardNascosta1" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Calcolo Tensione</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="resistenzaB" class="form-label">Resistenza (Ohm):</label>
+                                <input type="number" class="form-control" id="resistenzaB" placeholder="Inserisci la resistenza (Ohm)" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="intensitaB" class="form-label">Intensità (A):</label>
+                                <input type="number" class="form-control" id="intensitaB" placeholder="Inserisci l'intensità (A)" required>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="calcolaTensione()">Calcola Tensione</button>
+                        </form>
+                        <h2 class="mt-4" id="risultatoB"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <button id="bottone2" type="button" class="btn btn-primary btn-lg w-100" onclick="mostra2()">Mostra Calcolatore Resistenza</button>
+                <div class="card d-none mt-4" id="cardNascosta2" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Calcolo Resistenza</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="tensioneC" class="form-label">Tensione (V):</label>
+                                <input type="number" class="form-control" id="tensioneC" placeholder="Inserisci la tensione (V)" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="intensitaC" class="form-label">Intensità (A):</label>
+                                <input type="number" class="form-control" id="intensitaC" placeholder="Inserisci l'intensità (A)" required>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="calcolaResistenza()">Calcola Resistenza</button>
+                        </form>
+                        <h2 class="mt-4" id="risultatoC"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <button id="bottone3" type="button" class="btn btn-primary btn-lg w-100" onclick="mostra3()">Mostra Calcolatore Kirchhoff</button>
+                <div class="card d-none mt-4" id="cardNascosta3" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Calcolo Serie e Parallelo</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="numeroResistenze" class="form-label">Numero di Resistenze:</label>
+                                <input type="number" class="form-control" id="numeroResistenze" min="2" max="10" value="4" onchange="generaResistenze()" required>
+                            </div>
+                            <div id="resistenzeForm" class="mb-3"></div>
+                            <div class="mb-3">
+                                <label for="configurazione" class="form-label">Configurazione:</label>
+                                <select class="form-control" id="configurazione">
+                                    <option value="serie">Serie</option>
+                                    <option value="parallelo">Parallelo</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="intensitaD" class="form-label">Batteria (E) (inserisca solo 'e' se si vuole calcolare solo le resistenze):</label>
+                                <input type="number" class="form-control" id="intensitaD" placeholder="Inserisci l'intensità (A)" required>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="calcolaKirchhoff()">Calcola Resistenze</button>
+                        </form>
+                        <h2 class="mt-4" id="risultatoD"></h2>
+                        <div class="row">
+                            <img src="immagine TLC.jpeg" class="img-fluid mt-4 mb-3" alt="Serie e Parallelo">
+                            <p><i> esempio di calcolo... </i></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <button id="bottone4" type="button" class="btn btn-primary btn-lg w-100" onclick="mostra4()">Mostra Calcolatore Sovrapposizione degli Effetti</button>
+                <div class="card d-none mt-4" id="cardNascosta4" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Calcolo Sovrapposizione degli Effetti</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="resistenza1" class="form-label">Resistenza R1 (Ohm):</label>
+                                <input type="number" class="form-control" id="resistenza1" placeholder="Inserisci la resistenza R1 (Ohm)" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="resistenza2" class="form-label">Resistenza R2 (Ohm):</label>
+                                <input type="number" class="form-control" id="resistenza2" placeholder="Inserisci la resistenza R2 (Ohm)" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="resistenza3" class="form-label">Resistenza R3 (Ohm):</label>
+                                <input type="number" class="form-control" id="resistenza3" placeholder="Inserisci la resistenza R3 (Ohm)" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tensioneE1" class="form-label">Tensione E1 (V):</label>
+                                <input type="number" class="form-control" id="tensioneE1" placeholder="Inserisci la tensione E1 (V)" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tensioneE2" class="form-label">Tensione E2 (V):</label>
+                                <input type="number" class="form-control" id="tensioneE2" placeholder="Inserisci la tensione E2 (V)" required>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="calcolaSovrapposizione()">Calcola Sovrapposizione</button>
+                        </form>
+                        <h2 class="mt-4" id="risultatoE"></h2>
+                        <div class="row">
+                            <img src="SITO TLC image 2.png" class="img-fluid mt-4" alt="Sovrapposizione degli Effetti">
+                            <img src="SITO TLC image 2 VER blu.png" class="img-fluid mt-4" alt="Sovrapposizione degli Effetti">
+                            <img src="SITO TLC image 2 VER rossa.png" class="img-fluid mt-4" alt="Sovrapposizione degli Effetti">
+                            <p><i> esempio di calcolo... </i></p>
+                        </div>
+                        <div class="row mt-3"></div>
+                            <h3 class="text-center"><i>Esercizio Da Proporre...</i></h3>
+                            <div class="text-center">
+                                <img src="Proposta DI Esercizio.png" class="img-fluid mt-4" id="image">
+                            </div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <button id="bottone5" type="button" class="btn btn-primary btn-lg w-100" onclick="mostra5()">Mostra Calcolatore Mappe di Karnaugh</button>
+                <div class="card d-none mt-4" id="cardNascosta5" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Calcolo delle Mappe di Karnaugh</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="numVariabili" class="form-label">Numero di Variabili:</label>
+                                <input type="number" class="form-control" id="numVariabili" min="2" max="4" placeholder="Inserisci il numero di variabili" required onchange="generaTabella()">
+                            </div>
+                            <div id="karnaughTable" class="mb-3"></div>
+                            <button type="button" class="btn btn-primary" onclick="calcolaMappaKarnaugh()">Calcola Mappa di Karnaugh</button>
+                        </form>
+                        <h2 class="mt-4" id="risultatoKarnaugh"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <button id="bottone6" type="button" class="btn btn-primary btn-lg w-100" onclick="mostra6()">Mostra Calcolatore Carica e Scarica</button>
+                <div class="card d-none mt-4" id="cardNascosta6" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Calcolo Tempi di Carica e Scarica</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="tensioneMax" class="form-label">Tensione Massima (V):</label>
+                                <input type="number" class="form-control" id="tensioneMax" placeholder="Inserisci la tensione massima (V)" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="resistenza" class="form-label">Resistenza (Ohm):</label>
+                                <input type="number" class="form-control" id="resistenza" placeholder="Inserisci la resistenza (Ohm)" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="capacita" class="form-label">Capacità (F):</label>
+                                <input type="number" class="form-control" id="capacita" placeholder="Inserisci la capacità (F)" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tempo" class="form-label">Tempo (s):</label>
+                                <input type="number" class="form-control" id="tempo" placeholder="Inserisci il tempo (s)" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tipoCarica" class="form-label">Tipo:</label>
+                                <select class="form-control" id="tipoCarica">
+                                    <option value="carica">Carica</option>
+                                    <option value="scarica">Scarica</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="calcolaCaricaScarica()">Calcola</button>
+                        </form>
+                        <h2 class="mt-4" id="risultatoCarica"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <button id="bottone7" type="button" class="btn btn-primary btn-lg w-100" onclick="mostra7()">Mostra Calcolatore Condensatori e Induttori</button>
+                <div class="card d-none mt-4" id="cardNascosta7" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Calcolo Condensatori e Induttori</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="tipoComponente" class="form-label">Tipo di Componente:</label>
+                                <select class="form-control" id="tipoComponente">
+                                    <option value="condensatore">Condensatore</option>
+                                    <option value="induttore">Induttore</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="configurazioneComponente" class="form-label">Configurazione:</label>
+                                <select class="form-control" id="configurazioneComponente">
+                                    <option value="serie">Serie</option>
+                                    <option value="parallelo">Parallelo</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="valore1" class="form-label">Valore del Componente 1:</label>
+                                <input type="number" class="form-control" id="valore1" placeholder="Inserisci il valore (F o H)" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="valore2" class="form-label">Valore del Componente 2:</label>
+                                <input type="number" class="form-control" id="valore2" placeholder="Inserisci il valore (F o H)" required>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="calcolaComponente()">Calcola</button>
+                        </form>
+                        <h2 class="mt-4" id="risultatoComponente"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <button id="bottone8" type="button" class="btn btn-primary btn-lg w-100" onclick="mostra8()">Mostra Calcolatore Unificato</button>
+                <div class="card d-none mt-4" id="cardNascosta8" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Calcolatore Unificato</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="tipoCalcolo" class="form-label">Tipo di Calcolo:</label>
+                                <select class="form-control" id="tipoCalcolo" onchange="aggiornaCampi()">
+                                    <option value="caricaScarica">Carica e Scarica</option>
+                                    <option value="serieParallelo">Serie e Parallelo</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tipoComponenteUnificato" class="form-label">Tipo di Componente:</label>
+                                <select class="form-control" id="tipoComponenteUnificato">
+                                    <option value="condensatore">Condensatore</option>
+                                    <option value="induttore">Induttore</option>
+                                </select>
+                            </div>
+                            <div id="campiCaricaScarica">
+                                <div class="mb-3">
+                                    <label for="tensioneMaxUnificato" class="form-label">Tensione Massima (V):</label>
+                                    <input type="number" class="form-control" id="tensioneMaxUnificato" placeholder="Inserisci la tensione massima (V)">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="resistenzaUnificato" class="form-label">Resistenza (Ohm):</label>
+                                    <input type="number" class="form-control" id="resistenzaUnificato" placeholder="Inserisci la resistenza (Ohm)">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="capacitaUnificato" class="form-label">Capacità (F):</label>
+                                    <input type="number" class="form-control" id="capacitaUnificato" placeholder="Inserisci la capacità (F)">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="tempoUnificato" class="form-label">Tempo (s):</label>
+                                    <input type="number" class="form-control" id="tempoUnificato" placeholder="Inserisci il tempo (s)">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="tipoCaricaUnificato" class="form-label">Tipo:</label>
+                                    <select class="form-control" id="tipoCaricaUnificato">
+                                        <option value="carica">Carica</option>
+                                        <option value="scarica">Scarica</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="campiSerieParallelo" class="d-none">
+                                <div class="mb-3">
+                                    <label for="configurazioneUnificato" class="form-label">Configurazione:</label>
+                                    <select class="form-control" id="configurazioneUnificato">
+                                        <option value="serie">Serie</option>
+                                        <option value="parallelo">Parallelo</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="valore1Unificato" class="form-label">Valore del Componente 1:</label>
+                                    <input type="number" class="form-control" id="valore1Unificato" placeholder="Inserisci il valore (F o H)">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="valore2Unificato" class="form-label">Valore del Componente 2:</label>
+                                    <input type="number" class="form-control" id="valore2Unificato" placeholder="Inserisci il valore (F o H)">
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="calcolaUnificato()">Calcola</button>
+                        </form>
+                        <h2 class="mt-4" id="risultatoUnificato"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <button id="bottone9" type="button" class="btn btn-primary btn-lg w-100" onclick="mostra9()">Mostra Codificatore di Mappe K</button>
+                <div class="card d-none mt-4" id="cardNascosta9" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Codifica delle Mappe di Karnaugh</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="numVariabili9" class="form-label">Numero di Variabili:</label>
+                                <input type="number" class="form-control" id="numVariabili9" min="2" max="4" placeholder="Inserisci il numero di variabili" required>
+                            </div>
+                            <button type="button" class="btn btn-primary mb-3" onclick="genera4MappeKarnaugh()">Genera 4 Mappe di Karnaugh</button>
+                        </form>
+                        <div id="mappeKarnaughContainer" class="mb-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8">
+                <h2>Teoria delle Leggi Elettriche</h2>
+                <h3>Legge di Ohm</h3>
+                <p>La legge di Ohm afferma che la corrente che attraversa un conduttore tra due punti è direttamente proporzionale alla tensione ai capi del conduttore stesso. La formula è:</p>
+                <p><strong>V = I * R</strong></p>
+                <p>dove V è la tensione, I è la corrente e R è la resistenza.</p>
+                
+                <h2>Teoria delle Leggi di Kirchhoff</h2>
+                <p>Le leggi di Kirchhoff sono due equazioni che descrivono la conservazione della carica e dell'energia nei circuiti elettrici:</p>
+                <ul>
+                    <li><strong>Prima legge di Kirchhoff (Legge dei nodi):</strong> La somma delle correnti entranti in un nodo è uguale alla somma delle correnti uscenti.</li>
+                    <li><strong>Seconda legge di Kirchhoff (Legge delle maglie):</strong> La somma delle tensioni in un circuito chiuso è uguale alla somma delle cadute di tensione.</li>
+                </ul>
+                <h3>Esempio Pratico</h3>
+                <p>Consideriamo un circuito con tre resistenze in parallelo e una corrente applicata. Le equazioni di Kirchhoff per questo circuito sono:</p>
+                <ul>
+                    <li><strong>Legge dei nodi:</strong> I = I1 + I2 + I3</li>
+                    <li><strong>Legge delle maglie:</strong> V = V1 = V2 = V3</li>
+                </ul>
+                <p>Per calcolare le correnti attraverso ogni resistenza in un circuito in parallelo, possiamo usare la legge di Ohm per ogni resistenza:</p>
+                <p><strong>I<sub>i</sub> = V / R<sub>i</sub></strong></p>
+                <p>dove I<sub>i</sub> è la corrente attraverso la resistenza R<sub>i</sub>, V è la tensione totale applicata al circuito e R<sub>i</sub> è la resistenza.</p>
+                <p>La resistenza equivalente del circuito in parallelo è data da:</p>
+                <p><strong>1 / R<sub>eq</sub> = 1 / R<sub>1</sub> + 1 / R<sub>2</sub> + 1 / R<sub>3</sub></strong></p>
+                <p>La tensione totale può essere calcolata come:</p>
+                <p><strong>V = I<sub>tot</sub> * R<sub>eq</sub></strong></p>
+                
+                <h2>Principio di Sovrapposizione degli Effetti</h2>
+                <p>Il principio di sovrapposizione degli effetti afferma che in un circuito lineare con più sorgenti indipendenti, la risposta (tensione o corrente) in un elemento del circuito è la somma algebrica delle risposte causate da ciascuna sorgente indipendente considerata separatamente, mentre tutte le altre sorgenti indipendenti sono disattivate (sostituite da cortocircuiti se sono sorgenti di tensione o da circuiti aperti se sono sorgenti di corrente).</p>
+                <h3>Esempio Pratico</h3>
+                <p>Consideriamo un circuito con tre resistenze R1, R2, R3 e due sorgenti di tensione E1 e E2. Vogliamo calcolare la tensione ai capi di R2 utilizzando il principio di sovrapposizione.</p>
+                <p><strong>Passi:</strong></p>
+                <ol>
+                    <li><strong>Contributo di E1 (spegnendo E2):</strong> Disattivare E2 (sostituirlo con un cortocircuito). Calcolare la corrente e la tensione nel circuito con solo E1 attivo.</li>
+                    <li><strong>Contributo di E2 (spegnendo E1):</strong> Disattivare E1 (sostituirlo con un cortocircuito). Calcolare la corrente e la tensione nel circuito con solo E2 attivo.</li>
+                    <li><strong>Somma delle risposte:</strong> Sommare algebricamente le risposte ottenute per ottenere la risposta totale.</li>
+                </ol>
+                <h2>Cosa sono le Mappe di Karnaugh?</h2>
+                <p>Le <strong>Mappe di Karnaugh</strong> (o <em>K-map</em>) sono tabelle usate per semplificare le funzioni booleane in modo visuale.</p>
+                <p><strong>Come funzionano?</strong></p>
+                <ul>
+                    <li>Si rappresentano le combinazioni delle variabili in una tabella speciale.</li>
+                    <li>Si evidenziano i gruppi di "1" adiacenti (orizzontali o verticali).</li>
+                    <li>Si scrive l’espressione booleana minimizzata.</li>
+                </ul>
+                <p>Questa tecnica riduce l'uso delle porte logiche nei circuiti digitali, rendendo i circuiti più efficienti.</p>
+                <h2>Esempi Pratici</h2>
+
+                <h3>Esempio 1: Calcolo del Tempo di Carica di un Condensatore</h3>
+                <p>Un condensatore con capacità di <strong>100 µF</strong> è collegato in serie a una resistenza di <strong>1 kΩ</strong> e alimentato con una tensione di <strong>10 V</strong>. Calcolare la tensione ai capi del condensatore dopo <strong>2 secondi</strong>.</p>
+                <p><strong>Come funziona:</strong> Durante la carica di un condensatore, la tensione ai suoi capi aumenta nel tempo secondo la formula:</p>
+                <p><strong>V(t) = V<sub>max</sub> * (1 - e<sup>-t / τ</sup>)</strong></p>
+                <p>dove:</p>
+                <ul>
+                    <li><strong>V(t):</strong> Tensione ai capi del condensatore al tempo t.</li>
+                    <li><strong>V<sub>max</sub>:</strong> Tensione massima applicata al circuito.</li>
+                    <li><strong>τ:</strong> Costante di tempo, calcolata come \( τ = R \cdot C \).</li>
+                </ul>
+                <p><strong>Soluzione:</strong></p>
+                <ol>
+                    <li>Calcolare la costante di tempo:  
+                        \( τ = R \cdot C = 1000 \cdot 0.0001 = 0.1 \, \text{s} \)
+                    </li>
+                    <li>Usare la formula della carica:  
+                        \( V(t) = 10 \cdot (1 - e^{-2 / 0.1}) \)
+                    </li>
+                    <li>Calcolare il risultato:  
+                        \( V(2) \approx 10 \, \text{V} \)
+                    </li>
+                </ol>
+                <p>Risultato: Dopo 2 secondi, il condensatore è praticamente carico con una tensione di circa <strong>10 V</strong>.</p>
+    
+                <h3>Esempio 2: Calcolo della Resistenza Equivalente in Serie</h3>
+                <p>Due resistenze di <strong>10 Ω</strong> e <strong>20 Ω</strong> sono collegate in serie. Calcolare la resistenza equivalente.</p>
+                <p><strong>Come funziona:</strong> Quando le resistenze sono collegate in serie, la resistenza equivalente è la somma delle resistenze individuali:</p>
+                <p><strong>R<sub>eq</sub> = R<sub>1</sub> + R<sub>2</sub></strong></p>
+                <p>dove:</p>
+                <ul>
+                    <li><strong>R<sub>eq</sub>:</strong> Resistenza equivalente.</li>
+                    <li><strong>R<sub>1</sub>, R<sub>2</sub>:</strong> Resistenze individuali.</li>
+                </ul>
+                <p><strong>Soluzione:</strong></p>
+                <ol>
+                    <li>Usare la formula per la resistenza equivalente in serie:  
+                        \( R_{eq} = R_1 + R_2 \)
+                    </li>
+                    <li>Sostituire i valori:  
+                        \( R_{eq} = 10 + 20 = 30 \, \text{Ω} \)
+                    </li>
+                </ol>
+                <p>Risultato: La resistenza equivalente è <strong>30 Ω</strong>.</p>
+                <h2>Come Codificare in Binario?</h2>
+                <p>La codifica binaria è un metodo per rappresentare i numeri o i valori logici utilizzando solo due simboli: <strong>0</strong> e <strong>1</strong>. Questo sistema è alla base dell'informatica e dell'elettronica digitale.</p>
+                <p><strong>Passaggi per la codifica:</strong></p>
+                <ol>
+                    <li><strong>Identificare i valori:</strong> Ogni cella della Mappa di Karnaugh rappresenta un valore logico (0 o 1).</li>
+                    <li><strong>Convertire in binario:</strong> Se i valori sono numerici, possono essere convertiti in binario utilizzando il sistema di numerazione binaria.</li>
+                    <li><strong>Unire i valori:</strong> I valori binari vengono concatenati per formare una stringa binaria rappresentativa.</li>
+                </ol>
+                <p><strong>Esempio:</strong></p>
+                <p>Consideriamo una Mappa di Karnaugh con i seguenti valori:</p>
+                <ul>
+                    <li>Riga 1: 0, 1</li>
+                    <li>Riga 2: 1, 0</li>
+                </ul>
+                <p>La codifica binaria sarà: <strong>0110</strong>.</p>
+                <p>Questa rappresentazione può essere utilizzata per analisi logiche o per implementare circuiti digitali.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; 2025 Sito di TLC di Mirabelli</p>
+    </footer>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
